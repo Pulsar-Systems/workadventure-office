@@ -1,0 +1,12 @@
+https://workadventure.github.io/startup/map.json
+https://workadventure.github.io/startup/src/assets/modernset_interior.png
+https://workadventure.github.io/startup/src/assets/modernset_floor.png
+https://workadventure.github.io/startup/src/assets/extset_ice.png
+https://workadventure.github.io/startup/src/assets/Office_interiors_shadowless_32x32.png
+https://workadventure.github.io/startup/src/assets/modernset_floor_3.png
+https://workadventure.github.io/startup/src/assets/modern_interiors.png
+https://workadventure.github.io/startup/src/assets/modern_tileset.png
+https://workadventure.github.io/startup/src/assets/WA_User_Interface.png
+https://workadventure.github.io/startup/src/assets/LimeZu_14_Basement_32x32.png
+https://workadventure.github.io/startup/src/assets/Special_Zones.png
+https://workadventure.github.io/startup/script.js
