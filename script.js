@@ -62,80 +62,15 @@ const script = async () => {
     });
 
     //////////////////////////////////
-    ///////////// Juckbox ////////////
+    ///////////// Jukebox ////////////
     //////////////////////////////////
-    const juckbox = WA.room.area.create({
-        name: 'Juckbox',
+    WA.room.area.create({
+        name: 'Jukebox',
         x: 741,
         y: 760,
         width: 436,
-        height: 229,
+        height: 235,
     });
-    // juckbox.setProperty('playAudio', 'music/gangnam-style.mp3');
-    /*juckbox.setProperty('playAudio', 'music/jimmy-punchline.mp3');
-    setTimeout(() => {
-        juckbox.setProperty('playAudio', undefined);
-    }, 16000);*/
-
-    const songList = [
-        { name: 'Jimmy Punchline', file: 'music/jimmy-punchline.mp3' },
-        { name: 'Gangnam Style', file: 'music/gangnam-style.mp3' },
-    ]
-
-    let juckboxPopup;
-    let timeoutDisco;
-    WA.room.onEnterLayer("Trigger/Jukebox").subscribe(() => {
-        // juckbox.setProperty('playAudio', 'music/jimmy-punchline.mp3');
-        juckboxPopup = WA.ui.openPopup("JukeboxPopup", 'Jukebox', [...songList.map(song => ({
-                label: song.name,
-                className: "primary",
-                callback: (popup) => {
-                    juckbox.setProperty('playAudio', song.file);
-                    WA.room.showLayer("disco");
-                    clearTimeout(timeoutDisco);
-                    timeoutDisco = setTimeout(() => WA.room.hideLayer("disco"), 20000);
-                    // Trigger update for other users
-                    WA.player.state.saveVariable("Jukebox", song.file, {
-                        public: true,
-                        persist: false,
-                        scope: "room",
-                    });
-                    popup.close();
-                }
-            })), {
-                label: 'Stop',
-                className: "primary",
-                callback: (popup) => {
-                    juckbox.setProperty('playAudio', undefined);
-                    WA.room.hideLayer("disco");
-
-                    // Trigger update for other users
-                    WA.player.state.saveVariable("Jukebox", undefined, {
-                        public: true,
-                        persist: false,
-                        scope: "room",
-                    });
-                    popup.close();
-                }
-            }]
-        );
-    });
-
-    WA.room.onLeaveLayer("Trigger/Jukebox").subscribe(() => {
-        juckboxPopup.close();
-    });
-
-    WA.players.onVariableChange("Jukebox").subscribe((event) => {
-        // Apply update to other users
-        juckbox.setProperty('playAudio', event.value);
-
-        if (event.value) {
-            WA.room.showLayer("disco");
-            clearTimeout(timeoutDisco);
-            timeoutDisco = setTimeout(() => WA.room.hideLayer("disco"), 20000);
-        } else {
-            WA.room.hideLayer("disco");
-        }
-    });
+    // The rest is managed in dialog-jukebox.html
 }
 script().then();

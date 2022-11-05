@@ -200,6 +200,22 @@
                  "id":71,
                  "name":"Jukebox",
                  "opacity":1,
+                 "properties":[
+                        {
+                         "name":"openWebsite",
+                         "type":"string",
+                         "value":"html\/dialog-jukebox.html"
+                        }, 
+                        {
+                         "name":"openWebsiteAllowApi",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"openWebsiteWidth",
+                         "type":"int",
+                         "value":35
+                        }],
                  "type":"tilelayer",
                  "visible":true,
                  "width":45,

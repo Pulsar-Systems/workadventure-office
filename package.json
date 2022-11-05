@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "rm -rf dist && tsc && vite build && cp -R music dist/music",
+    "build": "sh build.sh",
     "preview": "vite preview"
   },
   "devDependencies": {
