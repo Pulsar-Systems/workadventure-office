@@ -12,9 +12,11 @@ const script = async () => {
     let isTrash = false;
     let language = 'en';
     let helloWorldPopup;
+    let inZone;
 
     // https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist
     WA.room.onEnterLayer("Trigger/Welcome").subscribe(() => {
+        inZone = true;
         if (firstTime) {
             helloWorldPopup = WA.ui.openPopup("WelcomePopup", 'Welcome to Pulsar Systems Office !', []);
             firstTime = false;
@@ -44,20 +46,25 @@ const script = async () => {
             fetch(`https://v2.jokeapi.dev/joke/Any?lang=${language}&blacklistFlags=${isTrash ? '' : 'racist,sexist,explicit'}`)
                 .then(d => d.json())
                 .then(res => {
-                    if (res.type === 'twopart') {
-                        helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.setup, []);
-                        setTimeout(() => {
-                            helloWorldPopup.close();
-                            helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.delivery, buttons);
-                        }, 4000);
-                    } else {
-                        helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.joke, buttons);
+                    if (inZone) {
+                        if (res.type === 'twopart') {
+                            helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.setup, []);
+                            setTimeout(() => {
+                                helloWorldPopup.close();
+                                if (inZone) {
+                                    helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.delivery, buttons);
+                                }
+                            }, 4000);
+                        } else {
+                            helloWorldPopup = WA.ui.openPopup("WelcomePopup", res.joke, buttons);
+                        }
                     }
                 });
         }
     });
 
     WA.room.onLeaveLayer("Trigger/Welcome").subscribe(() => {
+        inZone = false;
         helloWorldPopup.close();
     });
 
