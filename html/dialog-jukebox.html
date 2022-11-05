@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+    <script lang="javascript">
+        let timeoutDisco;
+
+        const songList = [
+            {name: 'Orelsan - Jimmy Punchline', file: 'music/jimmy-punchline.mp3'},
+            {name: 'PSY - Gangnam Style', file: 'music/gangnam-style.mp3'},
+            {name: 'The Weeknd - Blinding Lights', file: 'music/blinding-lights.mp3'},
+            {name: 'Eiffel 65 - Blue', file: 'music/eiffel65-blue.mp3'},
+            {name: 'Future - Mask Off', file: 'music/mask-off.mp3'},
+        ];
+
+        let jukebox;
+        WA.room.area.get('Jukebox').then(j => {
+            jukebox = j;
+        });
+
+        function clickSong(song) {
+            jukebox.setProperty('playAudio', song);
+
+            // Trigger update for other users
+            WA.player.state.saveVariable("Jukebox", song, {
+                public: true,
+                persist: false,
+                scope: "room",
+            });
+        }
+
+        function clickStop() {
+            jukebox.setProperty('playAudio', undefined);
+            WA.room.hideLayer("disco");
+
+            // Trigger update for other users
+            WA.player.state.saveVariable("Jukebox", undefined, {
+                public: true,
+                persist: false,
+                scope: "room",
+            });
+        }
+
+        function clickDisco() {
+            WA.room.showLayer("disco");
+            timeoutDisco && clearTimeout(timeoutDisco);
+            timeoutDisco = setTimeout(() => {
+                WA.room.hideLayer("disco");
+                timeoutDisco = undefined;
+            }, 20000);
+
+            // Trigger update for other users
+            WA.player.state.saveVariable("Disco", (WA.player.state.Disco || 0) + 1, {
+                public: true,
+                persist: false,
+                scope: "room",
+            });
+        }
+
+        WA.players.onVariableChange("Jukebox").subscribe((event) => {
+            // Apply update to other users
+            jukebox.setProperty('playAudio', event.value);
+            if (!event.value) {
+                WA.room.hideLayer("disco");
+            }
+        });
+
+        WA.players.onVariableChange("Disco").subscribe((event) => {
+            // Apply update to other users
+            WA.room.showLayer("disco");
+            timeoutDisco && clearTimeout(timeoutDisco);
+            timeoutDisco = setTimeout(() => {
+                WA.room.hideLayer("disco");
+                timeoutDisco = undefined;
+            }, 20000);
+        });
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const menu = document.getElementById("menu");
+
+            let html = '';
+            for (const song of songList) {
+                html += `<li onclick="clickSong('${song.file}')">${song.name}</li>\n`
+            }
+            html += `<li class="disco" onclick="clickDisco()">Disco</li>\n`
+            html += `<li class="stop" onclick="clickStop()">Stop</li>\n`
+            menu.innerHTML = html;
+        });
+    </script>
+    <style>
+        body {
+            background-color: #203354;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        #menu {
+            margin: 0;
+            padding: 0;
+        }
+
+        #menu li {
+            border: 1px solid black;
+            border-radius: 10px;
+            list-style: none;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            background-color: white;
+        }
+
+        .disco {
+            background-color: purple !important;
+            color: white;
+            margin-top: 30px !important;
+        }
+
+        .stop {
+            background-color: red !important;
+            color: white;
+            margin-top: 30px !important;
+        }
+
+        #menu li:hover {
+            background-color: #999999;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jukebox</h1>
+    <div>
+        <ul id="menu">
+        </ul>
+    </div>
+</body>
+</html>
