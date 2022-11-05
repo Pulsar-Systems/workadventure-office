@@ -82,7 +82,7 @@
             for (const song of songList) {
                 html += `<li onclick="clickSong('${song.file}')">${song.name}</li>\n`
             }
-            html += `<li class="disco" onclick="clickDisco()">Disco</li>\n`
+            // html += `<li class="disco" onclick="clickDisco()">Disco</li>\n`
             html += `<li class="stop" onclick="clickStop()">Stop</li>\n`
             menu.innerHTML = html;
         });
