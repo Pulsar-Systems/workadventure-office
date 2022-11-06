@@ -125,6 +125,28 @@ const script = async () => {
                 });
             }
         });
+        WA.ui.registerMenuCommand('Dancer', {
+            callback: () => {
+                WA.room.showLayer('dancer');
+                WA.room.showLayer('dancerFloor');
+                WA.player.state.saveVariable("Dancer", true, {
+                    public: true,
+                    persist: false,
+                    scope: "room",
+                });
+            }
+        });
+        WA.ui.registerMenuCommand('Dancer Stop', {
+            callback: () => {
+                WA.room.hideLayer('dancer');
+                WA.room.hideLayer('dancerFloor');
+                WA.player.state.saveVariable("Dancer", false, {
+                    public: true,
+                    persist: false,
+                    scope: "room",
+                });
+            }
+        });
     }
 
     WA.players.onVariableChange("HappyBirthdaySong").subscribe((event) => {
@@ -132,6 +154,16 @@ const script = async () => {
             happyBirthdaySound.play({});
         } else {
             happyBirthdaySound.stop();
+        }
+    });
+
+    WA.players.onVariableChange("Dancer").subscribe((event) => {
+        if (event.value) {
+            WA.room.showLayer('dancer');
+            WA.room.showLayer('dancerFloor');
+        } else {
+            WA.room.hideLayer('dancer');
+            WA.room.hideLayer('dancerFloor');
         }
     });
 
@@ -153,6 +185,10 @@ const script = async () => {
         if (!event.value) {
             WA.room.hideLayer("disco");
         }
+    });
+
+    WA.room.area.onLeave("Jukebox").subscribe(() => {
+        jukebox.setProperty('playAudio', undefined);
     });
 
     /*WA.players.onVariableChange("Disco").subscribe((event) => {
