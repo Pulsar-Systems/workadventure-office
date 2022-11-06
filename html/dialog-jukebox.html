@@ -57,24 +57,6 @@
             });
         }
 
-        WA.players.onVariableChange("Jukebox").subscribe((event) => {
-            // Apply update to other users
-            jukebox.setProperty('playAudio', event.value);
-            if (!event.value) {
-                WA.room.hideLayer("disco");
-            }
-        });
-
-        WA.players.onVariableChange("Disco").subscribe((event) => {
-            // Apply update to other users
-            WA.room.showLayer("disco");
-            timeoutDisco && clearTimeout(timeoutDisco);
-            timeoutDisco = setTimeout(() => {
-                WA.room.hideLayer("disco");
-                timeoutDisco = undefined;
-            }, 20000);
-        });
-
         document.addEventListener("DOMContentLoaded", async () => {
             const menu = document.getElementById("menu");
 
