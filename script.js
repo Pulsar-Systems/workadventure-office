@@ -26,8 +26,9 @@ const script = async () => {
         ['Vincent', { month: 8, day: 23 }],
         ['Vivi', { month: 10, day: 4 }],
         ['Polina', { month: 11, day: 7 }],
-        // ['Gregance', { month: 12, day: 17 }],
-        ['Gregance', { month: 11, day: 6 }],
+        ['Polinka', { month: 11, day: 7 }],
+        ['Gregance', { month: 12, day: 17 }],
+        // ['Gregance', { month: 11, day: 6 }],
     ]);
 
     const date = new Date();
@@ -172,9 +173,9 @@ const script = async () => {
     //////////////////////////////////
     const jukebox = WA.room.area.create({
         name: 'Jukebox',
-        x: 741,
-        y: 760,
-        width: 436,
+        x: 1146,
+        y: 764,
+        width: 652,
         height: 235,
     });
 
